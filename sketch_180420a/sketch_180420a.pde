@@ -1,0 +1,93 @@
+PVector[] clouds;
+PImage original;
+float y;
+float cloudX;
+int white;
+int green;
+int blue;
+int black;
+int skyY;
+float skyColour;
+
+void setup(){
+size (500,375);
+white = color(#FFFFFF);
+blue = color(#216CFC);
+green = color(#4BCE00);
+black = color(#000000);
+original = loadImage("bliss.jpg");
+clouds = new PVector[4];
+  for (int i = 0; i < clouds.length; i++) {
+    float x = random(0, width);
+    float y = random(0, height/3);
+    clouds[i] = new PVector(x, y);
+  }
+}
+void draw(){
+  background(original);
+  float skyY = 0;
+  float skyColour = .01;
+   while(skyY<275){
+   fill(lerpColor(blue,white,skyColour));
+   noStroke();
+   rect(0,skyY,500,skyY+5.5);
+   skyY+=5;
+   skyColour+=.01;
+   }
+ fill(lerpColor(green,black,0.05));
+  beginShape();
+    vertex(0,375);
+    vertex(0,157);
+    vertex(35,151);
+    vertex(99,150);
+    vertex(158,155);
+    vertex(235,158);
+    vertex(330,170);
+    vertex(431,184);
+    vertex(500,194);
+    vertex(500,375);
+   endShape(CLOSE);
+ 
+  int grassY = 190;
+  float grassColour = 0.051;
+  while(grassY<375){
+  fill(lerpColor(green, black, grassColour));
+  noStroke();
+  rect(0,grassY,500,grassY+2);
+  grassY += 5;
+  grassColour+=0.01;
+  }
+ 
+   noStroke();
+   fill(lerpColor(green,black,0.37));
+     beginShape();
+      vertex(89,150);
+      vertex(185,152);
+      vertex(255,159);
+      vertex(298,165);
+      vertex(335,169);
+      vertex(382,178);
+      vertex(443,183);
+      vertex(468,187);
+      vertex(500,190);
+      vertex(500,231);
+    endShape(CLOSE);
+
+   for (int i = 0; i < clouds.length; i++) {
+    clouds[i].add(1, 0);
+   
+    if (clouds[i].x - 75 > width) {
+      clouds[i].x = -75;
+      clouds[i].y = (int) random(50, height/3);
+    }
+    
+  noStroke();
+    fill(255);
+    ellipse(clouds[i].x, clouds[i].y, 70, 35);
+    ellipse(clouds[i].x+20, clouds[i].y+15, 70, 35);
+    ellipse(clouds[i].x-20, clouds[i].y+15, 70, 35);
+   }
+}
+void mousePressed(){
+  println(mouseX + "," + mouseY);
+}
